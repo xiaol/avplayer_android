@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <lieying.com.avplayer.view.PreviewView
+        android:id="@+id/take_picture_surfaceview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <ToggleButton
+        android:id="@+id/toggleRecordingButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textOff="Start Recording"
+        android:textOn="Stop Recording" />
+</RelativeLayout>
