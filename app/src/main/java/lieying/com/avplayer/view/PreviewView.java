@@ -78,7 +78,7 @@ public class PreviewView extends SurfaceView implements Callback {
                 }
             }
         }
-        openCamera();
+//        openCamera();
         // 开启相机
 //        if (mCamera == null) {
 //            numberOfCameras = this.getNumberOfCameras();
@@ -90,7 +90,7 @@ public class PreviewView extends SurfaceView implements Callback {
 //                    mCameraPosition = i;//此时保存后置摄像头的状态位
 //                }
 //            }
-//            setStartPreview();
+            setStartPreview();
 //        }
     }
 
@@ -98,12 +98,12 @@ public class PreviewView extends SurfaceView implements Callback {
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
         mSurfaceHolder = holder;
-        try {
-            mCamera.setPreviewDisplay(mSurfaceHolder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mCamera.startPreview();
+//        try {
+//            mCamera.setPreviewDisplay(mSurfaceHolder);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        mCamera.startPreview();
 //        setStartPreview();
     }
 
@@ -144,7 +144,9 @@ public class PreviewView extends SurfaceView implements Callback {
 
     // 切换前后摄像头
     public void switchCamera() {
+        mMediaRecorder.reset();
         if (mCamera != null) {
+            mCamera.lock();
             mCamera.stopPreview();
             mCamera.release();
             mCamera = null;
@@ -161,6 +163,19 @@ public class PreviewView extends SurfaceView implements Callback {
         requestLayout();
         mPreviewRunning = true;
         mCamera.startPreview();
+        mMediaRecorder.reset();
+        mMediaRecorder.setCamera(mCamera);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        // Set output file format
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        // 这两项需要放在setOutputFormat之后
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+        mMediaRecorder.setVideoEncodingBitRate(512 * 1000);
+        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setVideoSize(640, 480);
+        mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
     }
 
     // 返回摄像头个数
@@ -190,12 +205,12 @@ public class PreviewView extends SurfaceView implements Callback {
 
     private void setStartPreview() {
         try {
-//            mCamera = Camera.open();
+            mCamera = Camera.open();
             mCamera.setPreviewDisplay(mSurfaceHolder);
             mCamera.startPreview();
             mCamera.unlock();
             mMediaRecorder.reset();
-//            mMediaRecorder.setCamera(mCamera);
+            mMediaRecorder.setCamera(mCamera);
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             // Set output file format
@@ -206,7 +221,7 @@ public class PreviewView extends SurfaceView implements Callback {
             mMediaRecorder.setVideoEncodingBitRate(512 * 1000);
             mMediaRecorder.setVideoFrameRate(30);
             mMediaRecorder.setVideoSize(640, 480);
-//            mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
+            mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
         } catch (IOException e) {
             releaseCamera();
         }

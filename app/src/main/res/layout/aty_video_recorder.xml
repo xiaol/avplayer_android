@@ -16,4 +16,16 @@
         android:layout_height="wrap_content"
         android:textOff="Start Recording"
         android:textOn="Stop Recording" />
+
+    <ImageView
+        android:id="@+id/aa"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#333333"/>
+    <ImageView
+        android:id="@+id/bb"
+        android:layout_toRightOf="@id/aa"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#333333"/>
 </RelativeLayout>

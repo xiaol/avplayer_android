@@ -27,6 +27,19 @@ public class VideoRecorderActivity extends Activity {
             }
         });
         mPreviewView.setActivity(this);
+        mPreviewView.setOutPutFile(getFilesDir().getAbsolutePath()+"/aaa.mp4");
+        findViewById(R.id.aa).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPreviewView.start();
+            }
+        });
+        findViewById(R.id.bb).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPreviewView.stop();
+            }
+        });
     }
 
     @Override
